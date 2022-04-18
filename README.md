@@ -1,8 +1,8 @@
 > If you see this section, you've just created a repository using [PoC Innovation's Open-Source project template](https://github.com/PoCInnovation/open-source-project-template). Check the [getting started guide](./.github/getting-started.md).
 
-# [PROJECT'S NAME]
+# Thanatos
 
-[Project's description]
+The goal of this project is to create a virus capable of gathering as much password as possible in a linux machine.
 
 ## How does it work?
 
