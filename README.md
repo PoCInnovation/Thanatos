@@ -31,11 +31,11 @@ If you're interested in how the project is organized at a higher level, please c
 ## Our PoC team :heart:
 
 Developers
-| [<img src="https://github.com/MrZalTy.png?size=85" width=85><br><sub>[Developer's name]</sub>](https://github.com/MrZalTy) | [<img src="https://github.com/MrZalTy.png?size=85" width=85><br><sub>[Developer's name]</sub>](https://github.com/MrZalTy) | [<img src="https://github.com/MrZalTy.png?size=85" width=85><br><sub>[Developer's name]</sub>](https://github.com/MrZalTy) | [<img src="https://github.com/MrZalTy.png?size=85" width=85><br><sub>[Developer's name]</sub>](https://github.com/MrZalTy)
+| [<img src="https://github.com/HKtueur1.png?size=85" width=85><br><sub>[Developer's name]</sub>](https://github.com/HKtueur1) | [<img src="https://github.com/Tipbs.png?size=85" width=85><br><sub>[Developer's name]</sub>](https://github.com/Tipbs) | [<img src="https://github.com/Steci.png?size=85" width=85><br><sub>[Developer's name]</sub>](https://github.com/Steci) | [<img src="https://github.com/Nestyles.png?size=85" width=85><br><sub>[Developer's name]</sub>](https://github.com/Nestyles)
 | :---: | :---: | :---: | :---: | 
 
 Manager
-| [<img src="https://github.com/adrienfort.png?size=85" width=85><br><sub>[Manager's name]</sub>](https://github.com/adrienfort)
+| [<img src="https://github.com/AbdelkarimBENGRINE.png?size=85" width=85><br><sub>[Manager's name]</sub>](https://github.com/AbdelkarimBENGRINE)
 | :---: |
 
 <h2 align=center>
