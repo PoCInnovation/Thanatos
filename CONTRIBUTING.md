@@ -19,10 +19,10 @@ The recommended workflow is to fork this repository and open pull requests from 
 
 ```sh
 # Clone original repository
-git clone git@github.com:PoCInnovation/$REPOSITORY.git
+git clone git@github.com:PoCInnovation/Thanatos.git
 
 # Add your fork as a remove
-git remote add <fork_name> https://github.com/$YOUR_GITHUB_USER/$REPOSITORY.git
+git remote add <fork_name> https://github.com/$YOUR_GITHUB_USER/Thanatos.git
 ```
 
 ### 2. Create a pull request
@@ -40,7 +40,7 @@ git commit -s
 # Push your new branch
 git push <fork name>
 
-# Create a new pull request from https://github.com/PoCInnovation/$REPOSITORY/pulls
+# Create a new pull request from https://github.com/PoCInnovation/Thanatos/pulls
 ```
 
 ### 3. Update your pull request with latest changes
