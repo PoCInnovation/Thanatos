@@ -1,5 +1,3 @@
-> If you see this section, you've just created a repository using [PoC Innovation's Open-Source project template](https://github.com/PoCInnovation/open-source-project-template). Check the [getting started guide](./.github/getting-started.md).
-
 # Thanatos
 
 The goal of this project is to create a virus capable of gathering as much password as possible in a linux machine.
@@ -31,11 +29,11 @@ If you're interested in how the project is organized at a higher level, please c
 ## Our PoC team :heart:
 
 Developers
-| [<img src="https://github.com/HKtueur1.png?size=85" width=85><br><sub>[Timothée de BOYNES]</sub>](https://github.com/HKtueur1) | [<img src="https://github.com/Tipbs.png?size=85" width=85><br><sub>[Thibaut DEGODENNE]</sub>](https://github.com/Tipbs) | [<img src="https://github.com/Steci.png?size=85" width=85><br><sub>[Léa GUILLEMARD]</sub>](https://github.com/Steci) | [<img src="https://github.com/Nestyles.png?size=85" width=85><br><sub>[Tom SANCHO]</sub>](https://github.com/Nestyles)
+| [<img src="https://github.com/HKtueur1.png?size=85" width=85><br><sub>Timothée de BOYNES</sub>](https://github.com/HKtueur1) | [<img src="https://github.com/Tipbs.png?size=85" width=85><br><sub>Thibaut DEGODENNE</sub>](https://github.com/Tipbs) | [<img src="https://github.com/Steci.png?size=85" width=85><br><sub>Léa GUILLEMARD</sub>](https://github.com/Steci) | [<img src="https://github.com/Nestyles.png?size=85" width=85><br><sub>Tom SANCHO</sub>](https://github.com/Nestyles)
 | :---: | :---: | :---: | :---: | 
 
 Manager
-| [<img src="https://github.com/AbdelkarimBENGRINE.png?size=85" width=85><br><sub>[Abdelkarim BENGRINE]</sub>](https://github.com/AbdelkarimBENGRINE)
+| [<img src="https://github.com/AbdelkarimBENGRINE.png?size=85" width=85><br><sub>Abdelkarim BENGRINE</sub>](https://github.com/AbdelkarimBENGRINE)
 | :---: |
 
 <h2 align=center>
