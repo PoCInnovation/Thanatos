@@ -3,7 +3,7 @@
     #include <iostream>
     #include <sstream>
     #include <map>
-#include <utility>
+    #include <unistd.h>
 
 class HttpMessage
 {
@@ -18,14 +18,16 @@ private:
     std::string request_string;
     std::string path;
     std::map<std::string, std::string> headers;
-    void print_method() {
+
+    std::string stringify_method() {
         switch (this->method) {
             case HttpMethod::GET:
-                std::cout << "GET";
+                return "GET";
                 break;
             case HttpMethod::POST:
-                std::cout << "POST";
+                return "POST";
         }
+        return "";
     }
 public:
     HttpMessage(HttpMethod method, const std::string &url,
@@ -44,7 +46,7 @@ public:
 
     void print_message()
     {
-        print_method();
+        std::cout << stringify_method();
         std::cout << " " << this->path << " " << "HTTP/1.1" << std::endl;
         for (const auto& [key, val] : headers) {
             std::cout << key << ": " << val << std::endl;
@@ -55,6 +57,22 @@ public:
     void set_header(const std::string &key, const std::string &content)
     {
         headers[key] = content;
+    }
+
+    void send_message(int socket)
+    {
+        std::stringstream http_message_encoded;
+        std::string http_message;
+
+        http_message_encoded << stringify_method();
+        http_message_encoded << " " << this->path << " " << "HTTP/1.1\r\n";
+        for (const auto& [key, val] : headers) {
+            http_message_encoded << key << ": " << val << "\r\n";
+        }
+        http_message_encoded << "\r\n";
+        http_message_encoded << body_content << "\r\n";
+        http_message = http_message_encoded.str();
+        write(socket, http_message.c_str(), http_message.length());
     }
 };
 
