@@ -13,7 +13,7 @@ all: $(NAME)
 	g++ -c $< -o $@ $(CFLAGS)
 
 $(NAME): $(OBJ)
-	g++ $^ -o $@ $(CFLAGS)
+	g++ $^ -o $@
 
 clean:
 	rm -f $(OBJ)

@@ -51,6 +51,7 @@ public:
         for (const auto& [key, val] : headers) {
             std::cout << key << ": " << val << std::endl;
         }
+        std::cout << "\n";
         std::cout << body_content << std::endl;
     }
 
