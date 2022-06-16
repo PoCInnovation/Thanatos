@@ -8,6 +8,8 @@
 #include <sys/types.h>
 #include <ifaddrs.h>
 #include <cstring>
+#include <fstream>
+#include <string>
 
 int connect_to_server(const std::string ip, const int port)
 {
@@ -51,6 +53,19 @@ char *get_ip_addr(void)
         }
     }
     return NULL;
+}
+
+std::string get_file(const std::string file_name)
+{
+    std::ifstream stream(file_name);
+    std::string file;
+
+    while (stream.good()) {
+        std::string line;
+        std::getline(stream, line);
+        file += line + "\n";
+    }
+    return file;
 }
 
 int main()
