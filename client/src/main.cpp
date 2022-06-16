@@ -5,6 +5,9 @@
 #include <netdb.h>
 #include <strings.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <ifaddrs.h>
+#include <cstring>
 
 int connect_to_server(const std::string ip, const int port)
 {
@@ -35,6 +38,19 @@ int connect_to_server(const std::string ip, const int port)
     else
         std::cout << "Connected to the server\n";
     return sockfd;
+}
+
+char *get_ip_addr(void)
+{
+    ifaddrs *ip = NULL;
+    
+    getifaddrs(&ip);
+    for (; ip != NULL; ip = ip->ifa_next) {
+        if (ip->ifa_addr->sa_family == AF_INET && !strcmp(ip->ifa_name, "wlo1")) {
+            return inet_ntoa(((struct sockaddr_in *)ip->ifa_addr)->sin_addr);
+        }
+    }
+    return NULL;
 }
 
 int main()
