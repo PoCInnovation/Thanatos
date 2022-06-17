@@ -3,6 +3,7 @@
     #include <iostream>
     #include <sstream>
     #include <map>
+    #include <sys/socket.h>
     #include <unistd.h>
 
 class HttpMessage
@@ -60,6 +61,11 @@ public:
         headers[key] = content;
     }
 
+    std::string get_header(const std::string &key)
+    {
+        return headers.at(key);
+    }
+
     void send_message(int socket)
     {
         std::stringstream http_message_encoded;
@@ -74,6 +80,10 @@ public:
         http_message_encoded << body_content << "\r\n";
         http_message = http_message_encoded.str();
         write(socket, http_message.c_str(), http_message.length());
+    }
+
+    std::string &get_body() {
+        return this->body_content;
     }
 };
 
