@@ -17,7 +17,7 @@ private:
     HttpMethod method;
     std::string body_content;
     std::string request_string;
-    std::string path;
+    std::string route;
     std::map<std::string, std::string> headers;
 
     std::string stringify_method() {
@@ -32,10 +32,10 @@ private:
     }
 public:
     HttpMessage(HttpMethod method, const std::string &url,
-        const std::string &path)
+        const std::string &route)
     {
         this->method = method;
-        this->path = path;
+        this->route = route;
         set_header("Host", url);
     }
 
@@ -48,7 +48,7 @@ public:
     void print_message()
     {
         std::cout << stringify_method();
-        std::cout << " " << this->path << " " << "HTTP/1.1" << std::endl;
+        std::cout << " " << this->route << " " << "HTTP/1.1" << std::endl;
         for (const auto& [key, val] : headers) {
             std::cout << key << ": " << val << std::endl;
         }
@@ -72,7 +72,7 @@ public:
         std::string http_message;
 
         http_message_encoded << stringify_method();
-        http_message_encoded << " " << this->path << " " << "HTTP/1.1\r\n";
+        http_message_encoded << " " << this->route << " " << "HTTP/1.1\r\n";
         for (const auto& [key, val] : headers) {
             http_message_encoded << key << ": " << val << "\r\n";
         }
