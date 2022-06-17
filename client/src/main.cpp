@@ -1,4 +1,5 @@
 #include "http_message.hpp"
+#include "manage_messages.hpp"
 #include <iostream>
 #include <arpa/inet.h>
 #include <sys/socket.h>
@@ -45,7 +46,7 @@ int connect_to_server(const std::string ip, const int port)
 char *get_ip_addr(void)
 {
     ifaddrs *ip = NULL;
-    
+
     getifaddrs(&ip);
     for (; ip != NULL; ip = ip->ifa_next) {
         if (ip->ifa_addr->sa_family == AF_INET && !strcmp(ip->ifa_name, "wlo1")) {
@@ -72,12 +73,16 @@ int main()
 {
     auto message = HttpMessage(HttpMessage::HttpMethod::GET, "0.0.0.0",
         "/hello");
-    auto socket = connect_to_server("127.0.0.1", 8080);
+    auto socket = connect_to_server("127.0.0.1", 4000);
 
     message << "Salut je suis le body\n";
     message << "salut";
     message.set_header("cle", "pas cle");
     message.print_message();
     message.send_message(socket);
+    std::cout << "(----------------------)" << std::endl;
+    std::cout << "Message received:\n\n";
+    auto msg_received = receive_message(socket);
+    msg_received.print_message();
     close(socket);
 }

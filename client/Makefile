@@ -1,4 +1,5 @@
-SRC = main.cpp
+SRC = main.cpp	\
+      manage_messages.cpp
 SRC := $(addprefix src/, $(SRC))
 
 OBJ = $(SRC:.cpp=.o)
