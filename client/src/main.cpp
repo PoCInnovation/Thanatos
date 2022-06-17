@@ -56,19 +56,6 @@ char *get_ip_addr(void)
     return NULL;
 }
 
-std::string get_file(const std::string file_name)
-{
-    std::ifstream stream(file_name);
-    std::string file;
-
-    while (stream.good()) {
-        std::string line;
-        std::getline(stream, line);
-        file += line + "\n";
-    }
-    return file;
-}
-
 int main()
 {
     auto message = HttpMessage(HttpMessage::HttpMethod::GET, "0.0.0.0",

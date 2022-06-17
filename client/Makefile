@@ -1,5 +1,7 @@
 SRC = main.cpp	\
-      manage_messages.cpp
+      manage_messages.cpp	\
+      connect.cpp	\
+      routes/getfile.cpp
 SRC := $(addprefix src/, $(SRC))
 
 OBJ = $(SRC:.cpp=.o)
