@@ -1,12 +1,12 @@
-#ifndef __HTTP_MESSAGE_HPP__
-    #define __HTTP_MESSAGE_HPP__
+#ifndef __HTTP_REQ_HPP__
+    #define __HTTP_REQ_HPP__
     #include <iostream>
     #include <sstream>
     #include <map>
     #include <sys/socket.h>
     #include <unistd.h>
 
-class HttpMessage
+class HttpReq
 {
 public:
     enum class HttpMethod {
@@ -15,6 +15,7 @@ public:
     };
 private:
     HttpMethod method;
+    std::string version;
     std::string body_content;
     std::string request_string;
     std::string route;
@@ -31,15 +32,16 @@ private:
         return "";
     }
 public:
-    HttpMessage(HttpMethod method, const std::string &url,
-        const std::string &route)
+    HttpReq(HttpMethod method, const std::string &url,
+        const std::string &route, const std::string &version)
     {
+        this->version = version;
         this->method = method;
         this->route = route;
         set_header("Host", url);
     }
 
-    HttpMessage &operator <<(const std::string &body_message)
+    HttpReq &operator <<(const std::string &body_message)
     {
         this->body_content.append(body_message);
         return *this;
@@ -48,7 +50,7 @@ public:
     void print_message()
     {
         std::cout << stringify_method();
-        std::cout << " " << this->route << " " << "HTTP/1.1" << std::endl;
+        std::cout << " " << this->route << " " << this->version << std::endl;
         for (const auto& [key, val] : headers) {
             std::cout << key << ": " << val << std::endl;
         }
@@ -66,13 +68,18 @@ public:
         return headers.at(key);
     }
 
+    std::string get_route(void)
+    {
+        return this->route;
+    }
+
     void send_message(int socket)
     {
         std::stringstream http_message_encoded;
         std::string http_message;
 
         http_message_encoded << stringify_method();
-        http_message_encoded << " " << this->route << " " << "HTTP/1.1\r\n";
+        http_message_encoded << " " << this->route << " " << this->version << "\r\n";
         for (const auto& [key, val] : headers) {
             http_message_encoded << key << ": " << val << "\r\n";
         }

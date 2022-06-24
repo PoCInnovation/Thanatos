@@ -1,4 +1,5 @@
-#include "http_message.hpp"
+#include "http_res.hpp"
+#include "http_req.hpp"
 #include <fstream>
 
 static std::string get_file(const std::string file_name)
@@ -14,11 +15,16 @@ static std::string get_file(const std::string file_name)
     return file;
 }
 
-void get_file_route(int socket, HttpMessage &request)
+void get_file_route(HttpReq req, HttpRes res)
 {
-    std::string file_path = request.get_body();
+    std::string file_path = req.get_body();
     std::string file_content = get_file(file_path);
-    HttpMessage answer(HttpMessage::HttpMethod::POST, "0.0.0.0", "/get_file");
 
-    answer.send_message(socket);
+    if (file_content.empty()) {
+        res.set_status("404");
+        res << "File not found";
+    } else {
+        res.set_status("200");
+        res << file_content;
+    }
 }

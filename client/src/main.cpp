@@ -1,4 +1,5 @@
-#include "http_message.hpp"
+#include "http_res.hpp"
+#include "http_req.hpp"
 #include "manage_messages.hpp"
 #include <iostream>
 #include <arpa/inet.h>
@@ -58,18 +59,8 @@ char *get_ip_addr(void)
 
 int main()
 {
-    auto message = HttpMessage(HttpMessage::HttpMethod::GET, "0.0.0.0",
-        "/hello");
-    auto socket = connect_to_server("127.0.0.1", 4000);
+    int socket = connect_to_server(get_ip_addr(), 8080);
 
-    message << "Salut je suis le body\n";
-    message << "salut";
-    message.set_header("cle", "pas cle");
-    message.print_message();
-    message.send_message(socket);
-    std::cout << "(----------------------)" << std::endl;
-    std::cout << "Message received:\n\n";
-    auto msg_received = receive_message(socket);
-    msg_received.print_message();
+    do_loop(socket);
     close(socket);
 }

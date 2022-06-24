@@ -1,18 +1,26 @@
 #include "manage_messages.hpp"
-#include "http_message.hpp"
-#include <string>
+#include "http_res.hpp"
+#include "http_req.hpp"
+#include <string.h>
 
-static HttpMessage::HttpMethod destringify_method(std::string &string)
+static HttpReq::HttpMethod destringify_method(std::string &string)
 {
     if (string == "GET")
-        return HttpMessage::HttpMethod::GET;
+        return HttpReq::HttpMethod::GET;
     if (string == "POST")
-        return HttpMessage::HttpMethod::POST;
+        return HttpReq::HttpMethod::POST;
     else
-        return HttpMessage::HttpMethod::GET;
+        return HttpReq::HttpMethod::GET;
 }
 
-static void get_headers(HttpMessage &http_message, std::stringstream &received)
+static std::string get_body(std::stringstream &received)
+{
+    std::string body;
+    std::getline(received, body, '\0');
+    return body;
+}
+
+static void get_headers_req(HttpReq &http_message, std::stringstream &received)
 {
     std::string header;
     std::string key;
@@ -28,19 +36,46 @@ static void get_headers(HttpMessage &http_message, std::stringstream &received)
     }
 }
 
-static void get_body(HttpMessage &http_message, std::stringstream &received)
+static void get_headers_res(HttpRes &http_message, std::stringstream &received)
 {
-    std::string body;
-    std::getline(received, body, '\0');
-    http_message << body;
+    std::string header;
+    std::string key;
+    std::string value;
+
+    while (std::getline(received, header, '\n')) {
+        if (header == "\r")
+            break;
+        std::getline(received, key, ':');
+        std::getline(received, value, '\n');
+        value.erase(0, 1);
+        http_message.set_header(key, value);
+    }
 }
 
-// https://stackoverflow.com/questions/20011851/does-stringstream-read-consume-the-stream
-HttpMessage receive_message(int socket)
+HttpRes convert_res(int socket)
 {
     std::stringstream string_received;
     char char_readed = 'a';
-    HttpMessage::HttpMethod method = HttpMessage::HttpMethod::GET;
+
+    while (recv(socket, &char_readed, 1, 0) && char_readed != '\0') {
+        string_received << char_readed;
+    }
+    std::string version;
+    std::getline(string_received, version, ' ');
+    std::string status;
+    std::getline(string_received, status, ' ');
+    std::getline(string_received, status, ' ');
+    HttpRes res = HttpRes("0.0.0.0", status, version);
+    get_headers_res(res, string_received);
+    res << get_body(string_received);
+    return res;
+}
+
+HttpReq convert_req(int socket)
+{
+    std::stringstream string_received;
+    char char_readed = 'a';
+    HttpReq::HttpMethod method = HttpReq::HttpMethod::GET;
 
     while (recv(socket, &char_readed, 1, 0) && char_readed != '\0') {
         string_received << char_readed;
@@ -50,9 +85,10 @@ HttpMessage receive_message(int socket)
     method = destringify_method(request_info);
     std::string route;
     std::getline(string_received, route, ' ');
-    auto http_message = HttpMessage(method, "0.0.0.0", route);
-
-    get_headers(http_message, string_received);
-    get_body(http_message, string_received);
-    return http_message;
+    std::string version;
+    std::getline(string_received, version, ' ');
+    HttpReq req = HttpReq(method, "0.0.0.0", route, version);
+    get_headers_req(req, string_received);
+    req << get_body(string_received);
+    return req;
 }

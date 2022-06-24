@@ -1,8 +1,7 @@
-SRC = main.cpp	\
-      manage_messages.cpp	\
-      connect.cpp	\
-      routes/getfile.cpp
-SRC := $(addprefix src/, $(SRC))
+rwildcard = $(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2)	\
+			$(filter $(subst *,%,$2),$d))
+
+SRC = $(call rwildcard, src, *.cpp)
 
 OBJ = $(SRC:.cpp=.o)
 
