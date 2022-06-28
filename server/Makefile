@@ -1,13 +1,14 @@
-rwildcard = $(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2)	\
-			$(filter $(subst *,%,$2),$d))
+SRC =	main.cpp		\
+		server.cpp		\
+		client_loop.cpp	\
 
-SRC = $(call rwildcard, src, *.cpp)
+SRC := $(addprefix src/, $(SRC))
 
 OBJ = $(SRC:.cpp=.o)
 
 CFLAGS = -I include/ -std=c++20 -Wall -Wextra
 
-NAME = client
+NAME = server
 
 all: $(NAME)
 
