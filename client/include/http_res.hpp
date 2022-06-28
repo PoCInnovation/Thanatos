@@ -15,16 +15,18 @@ public:
     };
 private:
     std::string status;
+    int status_code;
     std::string version;
     std::string body_content;
     std::string request_string;
     std::map<std::string, std::string> headers;
 public:
 
-    HttpRes(const std::string &url, const std::string &status
+    HttpRes(const std::string &url, const std::string &status, int status_code
         , const std::string &version)
     {
         this->status = status;
+        this->status_code = status_code;
         this->version = version;
         set_header("Host", url);
     }
@@ -55,6 +57,11 @@ public:
         this->status = status;
     }
 
+    void set_status_code(const int &status_code)
+    {
+        this->status_code = status_code;
+    }
+
     std::string get_header(const std::string &key)
     {
         return headers.at(key);
@@ -63,6 +70,11 @@ public:
     std::string get_status(void)
     {
         return this->status;
+    }
+
+    int get_status_code(void)
+    {
+        return this->status_code;
     }
 
     void send_message(int socket)

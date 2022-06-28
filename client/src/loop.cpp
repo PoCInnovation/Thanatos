@@ -15,8 +15,8 @@ void do_loop(int socket)
     req.send_message(socket);
     HttpRes res = convert_res(socket);
 
-    if (res.get_status() != "200") {
-        std::cerr << "Error: " << res.get_status() << std::endl;
+    if (res.get_status_code() != 200) {
+        std::cerr << "Error: " << res.get_status_code() << std::endl;
         exit(84);
     }
     while (true) {

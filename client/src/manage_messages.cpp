@@ -62,10 +62,11 @@ HttpRes convert_res(int socket)
     }
     std::string version;
     std::getline(string_received, version, ' ');
+    std::string status_code;
+    std::getline(string_received, status_code, ' ');
     std::string status;
     std::getline(string_received, status, ' ');
-    std::getline(string_received, status, ' ');
-    HttpRes res = HttpRes("0.0.0.0", status, version);
+    HttpRes res = HttpRes("0.0.0.0", status, atoi(status_code.c_str()), version);
     get_headers_res(res, string_received);
     res << get_body(string_received);
     return res;
