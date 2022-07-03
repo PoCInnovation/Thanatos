@@ -1,6 +1,5 @@
 SRC =	main.cpp		\
-		server.cpp		\
-		client_loop.cpp	\
+		Server.cpp		\
 
 SRC := $(addprefix src/, $(SRC))
 

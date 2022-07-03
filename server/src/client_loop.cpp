@@ -12,13 +12,11 @@ int read_message(int socket_client)
         std::cout << "Error" << std::endl;
         return -1;
     }
+    printf("|%s|\n", buffer);
     split = strtok(buffer, "\r\n");
     while (split != NULL) {
         split = strtok(NULL, "\r\n");
-        if (!strcmp(split, "Connection: keep-alive")) {
-            status = 1;
-            break;
-        }
+        // printf("|%s|\n", split);
     }
     return status;
 }
@@ -53,6 +51,6 @@ void relation_client(int socket_client)
 
     while (status) {
         status = read_message(socket_client);
-        send_message(socket_client, status);
+        // send_message(socket_client, status);
     }
 }

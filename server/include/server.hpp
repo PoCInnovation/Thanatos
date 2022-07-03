@@ -13,5 +13,4 @@ void relation_client(int socket_client);
 void read_message(int socket_client);
 // Send Response to request
 void send_message(int socket_client);
-
 #endif
