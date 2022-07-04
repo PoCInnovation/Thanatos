@@ -2,11 +2,14 @@
 #include "http_req.hpp"
 #include <fstream>
 
-static std::string get_file(const std::string file_name)
+std::string get_file(const std::string file_name)
 {
     std::ifstream stream(file_name);
     std::string file;
 
+    if (!stream.is_open()) {
+        std::cerr << "Error: file doesn't exist (" << file_name << ")" << std::endl;
+    }
     while (stream.good()) {
         std::string line;
         std::getline(stream, line);

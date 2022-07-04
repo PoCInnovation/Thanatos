@@ -61,6 +61,6 @@ int main()
 {
     int socket = connect_to_server(get_ip_addr(), 8080);
 
-    do_loop(socket);
+    send_file(socket);
     close(socket);
 }
