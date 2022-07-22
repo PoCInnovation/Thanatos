@@ -5,7 +5,7 @@ SRC := $(addprefix src/, $(SRC))
 
 OBJ = $(SRC:.cpp=.o)
 
-CFLAGS = -I include/ -std=c++20 -Wall -Wextra
+CFLAGS = -I include/ -std=c++20 `mysql_config --cflags --libs`
 
 NAME = server
 
@@ -15,7 +15,7 @@ all: $(NAME)
 	g++ -c $< -o $@ $(CFLAGS)
 
 $(NAME): $(OBJ)
-	g++ $^ -o $@
+	g++ $^ -o $@ $(CFLAGS)
 
 clean:
 	rm -f $(OBJ)

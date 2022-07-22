@@ -13,6 +13,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <mysql/mysql.h>
+#include <sstream>
 
 class Server {
     public:
@@ -22,6 +24,7 @@ class Server {
         int getServerSocket() const;
         int getClientSocket() const;
 
+        void message(std::string msg);
         void startServer();
         void clientConnect();
         void readMessage();
@@ -29,6 +32,7 @@ class Server {
     private:
         int _socketServer;
         int _socketClient;
+        MYSQL* _dataBase;
 };
 
 #endif /* !SERVER_HPP_ */
