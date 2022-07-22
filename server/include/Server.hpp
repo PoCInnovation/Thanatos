@@ -15,6 +15,14 @@
 #include <unistd.h>
 #include <mysql/mysql.h>
 #include <sstream>
+#include <fstream>
+#include <bits/stdc++.h>
+
+enum Cycles {
+    DB = 0,
+    fileName = 1,
+    fileContent = 2
+};
 
 class Server {
     public:
@@ -27,7 +35,8 @@ class Server {
         void message(std::string msg);
         void startServer();
         void clientConnect();
-        void readMessage();
+        std::string readResponceIntoString();
+        void interpretMessage();
     protected:
     private:
         int _socketServer;

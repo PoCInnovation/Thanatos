@@ -75,20 +75,42 @@ void Server::clientConnect()
         std::cerr << "Connexion Fail..." << std::endl;
 }
 
-void Server::readMessage()
+std::string Server::readResponceIntoString()
 {
-    char buffer[4096];
-    char *split;
+    std::stringstream string_received;
+    char char_readed = 'a';
 
-    if (read(_socketClient, buffer, 4096) == -1) {
-        std::cout << "Error" << std::endl;
-        return;
+    while (recv(_socketClient, &char_readed, 1, 0) && char_readed != '\0') {
+        string_received << char_readed;
     }
-    printf("|%s|\n", buffer);
-    split = strtok(buffer, "\r\n");
-    while (split != NULL) {
-        split = strtok(NULL, "\r\n");
-        // printf("|%s|\n", split);
+    return string_received.str();
+}
+
+void Server::interpretMessage()
+{
+    std::string buffer = readResponceIntoString();
+    std::string delim = "\r\n";
+    int start = 0;
+    int end = buffer.find(delim);
+    int cycles = Cycles::DB;
+
+    // buffer = "hostname=jean\npassword=jaj\nfood=tomate\r\nNomDuFichier1\r\nje suis un fichier envoyé lala\r\nNomDuFichier2\r\nblabla bla contentnu du ficheri2";
+    printf("|%s|\n", buffer.c_str());
+
+    while (end != std::string::npos) {
+        std::cout << buffer.substr(start, end - start) << std::endl;
+
+        if (cycles == Cycles::DB)
+            continue;
+        if (cycles == Cycles::fileName) {
+        }
+        if (cycles == Cycles::fileContent) {
+            cycles = 0;
+        }
+
+        cycles++;
+        start = end + delim.length();
+        end = buffer.find(delim, start);
     }
     close(_socketClient);
 }
