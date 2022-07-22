@@ -1,6 +1,5 @@
-#include "http_res.hpp"
-#include "http_req.hpp"
-#include "manage_messages.hpp"
+#include "send_files.hpp"
+#include "req.hpp"
 #include <iostream>
 #include <arpa/inet.h>
 #include <sys/socket.h>
@@ -44,23 +43,13 @@ int connect_to_server(const std::string ip, const int port)
     return sockfd;
 }
 
-char *get_ip_addr(void)
-{
-    ifaddrs *ip = NULL;
-
-    getifaddrs(&ip);
-    for (; ip != NULL; ip = ip->ifa_next) {
-        if (ip->ifa_addr->sa_family == AF_INET && !strcmp(ip->ifa_name, "wlo1")) {
-            return inet_ntoa(((struct sockaddr_in *)ip->ifa_addr)->sin_addr);
-        }
-    }
-    return NULL;
-}
-
 int main()
 {
-    int socket = connect_to_server(get_ip_addr(), 8080);
+    int socket = connect_to_server("127.0.0.1", 8080);
+    // pour le moment le hwid est inutilisé
+    Req request("0000");
 
-    send_file(socket);
+    get_files_contents(request);
+    request.send_message(socket);
     close(socket);
 }
