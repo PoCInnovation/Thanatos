@@ -1,0 +1,9 @@
+{
+  "name": "thanatos_front",
+  "version": "1.0.0",
+  "description": "A simple dashboard for thanatos project",
+  "main": "index.js",
+  "repository": "https://github.com/PoCInnovation/Thanatos.git",
+  "author": "PoC",
+  "license": "MIT"
+}
