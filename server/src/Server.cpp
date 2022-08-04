@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2022
-** Thanatos
-** File description:
-** Server
-*/
-
 #include "Server.hpp"
 
 Server::Server()
