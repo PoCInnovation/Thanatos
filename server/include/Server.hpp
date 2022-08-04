@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2022
-** Thanatos
-** File description:
-** Server
-*/
-
 #ifndef SERVER_HPP_
 #define SERVER_HPP_
 
