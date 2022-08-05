@@ -11,10 +11,9 @@ void getHeader(MessageReceiver &messageReceiver, std::stringstream &message)
     while (std::getline(message, parameter, '\n')) {
         if (parameter == "\r")
             break;
-        std::getline(message, key, '=');
-        std::getline(message, value, '\n');
-        std::cout << "key: " << key << std::endl;
-        std::cout << "value: " << value << std::endl;
+        key = parameter.substr(0, parameter.find("="));
+        value = parameter.substr(parameter.find("="));
+        value.erase(0, 1);
         messageReceiver.setParameter(key, value);
     }
 }
