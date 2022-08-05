@@ -27,9 +27,9 @@ void getFiles(MessageReceiver &messageReceiver, std::stringstream &message)
     while (true) {
         std::getline(message, file.first, '\n');
         std::getline(message, file.second, static_cast<char>(0x03));
-        messageReceiver.files.push_back(file);
         if (message.eof())
             break;
+        messageReceiver.files.push_back(file);
     }
 }
 
