@@ -16,7 +16,7 @@ Server::Server()
     _dataBase = mysql_real_connect(_dataBase, "localhost", "root", "passwd123",
         "poc", 0, NULL, 0);
     if(!_dataBase)
-        std::cerr << "Connection Error! " << std::endl;
+        std::cerr << "Database connection Error! " << std::endl;
 }
 
 Server::~Server()

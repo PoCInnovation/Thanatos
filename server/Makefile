@@ -1,5 +1,7 @@
 SRC =	main.cpp		\
-		Server.cpp		\
+	Server.cpp		\
+	MessageReceiver.cpp	\
+	CreateFile.cpp
 
 SRC := $(addprefix src/, $(SRC))
 

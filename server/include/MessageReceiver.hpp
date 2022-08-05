@@ -12,14 +12,14 @@ public:
 
     MessageReceiver(std::stringstream &message);
 
-    std::string getParameter(std::string &key)
+    std::string getParameter(const std::string &key)
     {
         return parameters.at(key);
     }
 
-    void setParameter(std::string &key, std::string &value)
+    void setParameter(const std::string &key, std::string &value)
     {
-        parameters.insert(key, value);
+        parameters[key] = value;
     }
 };
 
