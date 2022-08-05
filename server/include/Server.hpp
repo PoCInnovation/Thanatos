@@ -2,14 +2,7 @@
 #define SERVER_HPP_
 
 #include <iostream>
-#include <cstring>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <unistd.h>
 #include <mysql/mysql.h>
-#include <sstream>
-#include <fstream>
-#include <bits/stdc++.h>
 
 enum Cycles {
     DB = 0,
@@ -26,14 +19,14 @@ class Server {
         int getClientSocket() const;
 
         void message(std::string msg);
-        void startServer();
-        void clientConnect();
+        int startServer();
+        int clientConnect();
         std::string readResponceIntoString();
         void interpretMessage();
+        void manageClient(int clientSocket);
     protected:
     private:
         int _socketServer;
-        int _socketClient;
         MYSQL* _dataBase;
 };
 

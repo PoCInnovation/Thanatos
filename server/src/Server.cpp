@@ -1,8 +1,13 @@
 #include "Server.hpp"
+#include "MessageReceiver.hpp"
+#include <cstring>
+#include <netinet/in.h>
+#include <sstream>
+#include <sys/socket.h>
+#include <unistd.h>
 
 Server::Server()
 {
-    _socketClient = -1;
     _socketServer = socket(AF_INET, SOCK_STREAM, 0);
 
     _dataBase = mysql_init(NULL);
@@ -17,7 +22,6 @@ Server::Server()
 Server::~Server()
 {
     close(_socketServer);
-    //close(_socketClient);
 }
 
 int Server::getServerSocket() const
@@ -25,17 +29,7 @@ int Server::getServerSocket() const
     return _socketServer;
 }
 
-int Server::getClientSocket() const
-{
-    return _socketClient;
-}
-
-void Server::message(std::string msg)
-{
-   std::cout << msg << std::endl;
-}
-
-void Server::startServer()
+int Server::startServer()
 {
     struct sockaddr_in myaddr;
     int listenPort = 4000;
@@ -43,7 +37,7 @@ void Server::startServer()
 
     if (_socketServer == -1) {
         std::cerr << "Setup Fail..." << std::endl;
-        return;
+        return -1;
     }
     std::cout << "Socket successfully created..." << std::endl;
     memset(&myaddr, 0, sizeof(struct sockaddr_in));
@@ -51,34 +45,44 @@ void Server::startServer()
     myaddr.sin_port = htons(listenPort);
     myaddr.sin_addr.s_addr = htonl(INADDR_ANY);
     setsockopt(_socketServer, SOL_SOCKET, SO_LINGER, &linger_opt, sizeof(linger_opt));
-    bind(_socketServer, (struct sockaddr*) &myaddr, sizeof(myaddr));
-    listen(_socketServer, 1);
+    if (bind(_socketServer, (struct sockaddr*) &myaddr, sizeof(myaddr)) == -1) {
+        std::cerr << "Failed to bind the server socket" << std::endl;
+        return -1;
+    }
+    if (listen(_socketServer, 1) == -1) {
+        std::cerr << "Failed to listen on the server socket" << std::endl;
+        return -1;
+    }
+    return 0;
 }
 
-void Server::clientConnect()
+int Server::clientConnect()
 {
     struct sockaddr_in peeraddr;
     socklen_t peeraddr_len;
 
     std::cout << "Wait new client..." << std::endl;
-    _socketClient = accept(_socketServer, (struct sockaddr*) &peeraddr, &peeraddr_len);
-    if (_socketClient != -1)
-        std::cout << "Connected..." << std::endl;
-    else
-        std::cerr << "Connexion Fail..." << std::endl;
+    return accept(_socketServer, (struct sockaddr*) &peeraddr, &peeraddr_len);
 }
 
-std::string Server::readResponceIntoString()
+void Server::manageClient(int clientSocket)
 {
-    std::stringstream string_received;
+    std::stringstream message_received;
     char char_readed = 'a';
 
-    while (recv(_socketClient, &char_readed, 1, 0) && char_readed != '\0') {
-        string_received << char_readed;
+    while (recv(clientSocket, &char_readed, 1, 0) && char_readed != '\0') {
+        message_received << char_readed;
     }
-    return string_received.str();
+    auto message = MessageReceiver(message_received);
+
+    for (auto& [file_name, file_content] : message.files) {
+        std::cout << "file name: " << file_name << std::endl;
+        std::cout << "content:\n" << file_content << std::endl;
+    }
+    close(clientSocket);
 }
 
+/*
 void Server::interpretMessage()
 {
     std::string buffer = readResponceIntoString();
@@ -106,7 +110,7 @@ void Server::interpretMessage()
         end = buffer.find(delim, start);
     }
     close(_socketClient);
-}
+}*/
 
 // void Server::printAllVictims()
 // {

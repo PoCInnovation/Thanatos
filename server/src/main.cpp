@@ -5,15 +5,16 @@
 int main(void)
 {
     Server server;
+    int clientSocket = -1;
     server.startServer();
 
     if (server.getServerSocket() == -1)
         return 84;
     while (1) {
-        server.clientConnect();
-        if (server.getClientSocket() == -1)
-            return 84;
-        server.readMessage();
+        clientSocket = server.clientConnect();
+        if (clientSocket == -1)
+            continue;
+        server.manageClient(clientSocket);
     }
     std::cout << "Exit program..." << std::endl;
     return 0;
