@@ -3,6 +3,7 @@
     #include <sstream>
     #include <map>
     #include <vector>
+    #include <optional>
 
 class MessageReceiver {
     std::map<std::string, std::string> parameters;
@@ -12,10 +13,10 @@ public:
 
     MessageReceiver(std::stringstream &message);
 
-    std::string getParameter(const std::string &key)
+    std::optional<std::string> getParameter(const std::string &key)
     {
         auto parameter = parameters.find(key);
-        return parameter != parameters.end() ? parameter->second : "";
+        return parameter != parameters.end() ? std::optional(parameter->second) : std::nullopt;
     }
 
     void setParameter(const std::string &key, std::string &value)
