@@ -70,7 +70,7 @@ void Server::manageClient(int clientSocket)
     std::stringstream message_received;
     char char_readed = 'a';
 
-    while (recv(clientSocket, &char_readed, 1, 0) && char_readed != '\0') {
+    while (recv(clientSocket, &char_readed, 1, 0)) {
         message_received << char_readed;
     }
     close(clientSocket);

@@ -3,6 +3,7 @@
     #include <iostream>
     #include <sstream>
     #include <map>
+    #include <string>
     #include <sys/socket.h>
     #include <unistd.h>
 
@@ -13,6 +14,7 @@ private:
     std::string body_content;
     std::string request_string;
     std::map<std::string, std::string> headers;
+    unsigned file_count = 0;
 
 public:
     Req(std::string hwid)
@@ -50,21 +52,23 @@ public:
         std::stringstream http_message_encoded;
         std::string http_message;
 
+        http_message_encoded << file_count << "\n";
         for (const auto& [key, val] : headers) {
             http_message_encoded << key << "=" << val << "\n";
         }
         http_message_encoded << "\r\n";
-        http_message_encoded << body_content << "\r\n";
+        http_message_encoded << body_content;
         http_message = http_message_encoded.str();
         write(socket, http_message.c_str(), http_message.length());
     }
 
     void push_file_to_req(std::string &file_name, std::string &file_content)
     {
+        ++file_count;
         body_content.append(file_name);
         body_content.append("\r\n");
+        body_content.append(std::to_string(file_content.size()) + '\n');
         body_content.append(file_content);
-        body_content.append("\r\n");
     }
 
     std::string &get_body() {

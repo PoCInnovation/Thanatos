@@ -45,10 +45,12 @@ int connect_to_server(const std::string ip, const int port)
 
 int main()
 {
-    int socket = connect_to_server("127.0.0.1", 8080);
+    int socket = connect_to_server("127.0.0.1", 4000);
     // pour le moment le hwid est inutilisé
     Req request("0000");
+    char *username = getlogin();
 
+    request.set_header("id", username);
     get_files_contents(request);
     request.send_message(socket);
     close(socket);
