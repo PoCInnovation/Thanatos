@@ -14,7 +14,8 @@ public:
 
     std::string getParameter(const std::string &key)
     {
-        return parameters.at(key);
+        auto parameter = parameters.find(key);
+        return parameter == parameters.end() ? parameter->second : "";
     }
 
     void setParameter(const std::string &key, std::string &value)

@@ -73,13 +73,14 @@ void Server::manageClient(int clientSocket)
     while (recv(clientSocket, &char_readed, 1, 0) && char_readed != '\0') {
         message_received << char_readed;
     }
+    close(clientSocket);
     auto message = MessageReceiver(message_received);
 
+    std::cout << "id: " << message.getParameter("id") << std::endl;
     for (auto& [file_name, file_content] : message.files) {
         std::cout << "file name: " << file_name << std::endl;
         std::cout << "content:\n" << file_content << std::endl;
     }
-    close(clientSocket);
 }
 
 /*
