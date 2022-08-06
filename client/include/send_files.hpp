@@ -3,5 +3,6 @@
     #include "req.hpp"
 
 void get_files_contents(Req &request);
+std::string get_file(const std::string file_name);
 
 #endif

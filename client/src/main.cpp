@@ -48,9 +48,11 @@ int main()
     int socket = connect_to_server("127.0.0.1", 4000);
     // pour le moment le hwid est inutilisé
     Req request("0000");
-    char *username = getlogin();
+    std::string username = getlogin();
+    std::string machine_id = get_file("/etc/machine-id");
 
-    request.set_header("id", username);
+    request.set_header("username", username);
+    request.set_header("hwid", machine_id);
     get_files_contents(request);
     request.send_message(socket);
     close(socket);
