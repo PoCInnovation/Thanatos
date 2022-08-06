@@ -1,10 +1,12 @@
 #include "Server.hpp"
 #include "MessageReceiver.hpp"
 #include <cstring>
+#include <fstream>
 #include <netinet/in.h>
 #include <sstream>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <filesystem>
 
 Server::Server()
 {
@@ -75,14 +77,39 @@ void Server::manageClient(int clientSocket)
     }
     close(clientSocket);
     auto message = MessageReceiver(message_received);
+    std::string client_folder;
 
-    if (auto username = message.getParameter("username"))
+    if (auto username = message.getParameter("username")) {
+        client_folder.append(*username);
         std::cout << "username: " << *username << std::endl;
-    if (auto machine_id = message.getParameter("hwid"))
+    } else {
+        std::cerr << "Couldn't get client username" << std::endl;
+        return;
+    }
+    if (auto machine_id = message.getParameter("hwid")) {
+        client_folder.push_back('-');
+        client_folder.append(*machine_id);
         std::cout << "machine-id: " << *machine_id << std::endl;
+    } else {
+        std::cerr << "Couldn't get client machine-id" << std::endl;
+        return;
+    }
+
+    std::filesystem::create_directory(client_folder);
     for (auto& [file_name, file_content] : message.files) {
+        std::stringstream fs_name;
+        std::string file_name_strip = file_name.substr(
+                file_name.find_last_of("/") + 1);
+        std::erase(file_name_strip, '\r');
+        fs_name << "./" << client_folder << "/" << file_name_strip;
+
+        std::fstream file;
+        file.open(fs_name.str(), std::ios_base::out);
+        file << file_content;
+
         std::cout << "file name: " << file_name << std::endl;
         std::cout << "content:\n" << file_content << std::endl;
+        file.close();
     }
 }
 
