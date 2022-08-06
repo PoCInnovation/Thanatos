@@ -40,8 +40,7 @@ public:
 
     void set_header(const std::string &key, std::string &content)
     {
-        content.erase(std::remove(content.begin(), content.end(), '\n'),
-                      content.end());
+        std::erase(content, '\n');
         headers[key] = content;
     }
 
