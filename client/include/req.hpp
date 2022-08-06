@@ -6,6 +6,7 @@
     #include <string>
     #include <sys/socket.h>
     #include <unistd.h>
+    #include <algorithm>
 
 class Req
 {
@@ -37,8 +38,10 @@ public:
         std::cout << body_content << std::endl;
     }
 
-    void set_header(const std::string &key, const std::string &content)
+    void set_header(const std::string &key, std::string &content)
     {
+        content.erase(std::remove(content.begin(), content.end(), '\n'),
+                      content.end());
         headers[key] = content;
     }
 
