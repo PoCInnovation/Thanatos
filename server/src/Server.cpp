@@ -76,7 +76,10 @@ void Server::manageClient(int clientSocket)
     close(clientSocket);
     auto message = MessageReceiver(message_received);
 
-    std::cout << "id: " << message.getParameter("id") << std::endl;
+    if (auto username = message.getParameter("username"))
+        std::cout << "username: " << *username << std::endl;
+    if (auto machine_id = message.getParameter("hwid"))
+        std::cout << "machine-id: " << *machine_id << std::endl;
     for (auto& [file_name, file_content] : message.files) {
         std::cout << "file name: " << file_name << std::endl;
         std::cout << "content:\n" << file_content << std::endl;
