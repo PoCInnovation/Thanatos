@@ -6,11 +6,12 @@
     #include <optional>
 
 class MessageReceiver {
-    std::map<std::string, std::string> parameters;
 
 public:
     std::vector<std::pair<std::string, std::string>> files;
+    std::string hwid;
 
+    std::map<std::string, std::string> parameters;
     MessageReceiver(std::stringstream &message);
 
     std::optional<std::string> getParameter(const std::string &key)

@@ -86,10 +86,10 @@ void Server::manageClient(int clientSocket)
         std::cerr << "Couldn't get client username" << std::endl;
         return;
     }
-    if (auto machine_id = message.getParameter("hwid")) {
+    if (message.hwid != "") {
         client_folder.push_back('-');
-        client_folder.append(*machine_id);
-        std::cout << "machine-id: " << *machine_id << std::endl;
+        client_folder.append(message.hwid);
+        std::cout << "machine-id: " << message.hwid << std::endl;
     } else {
         std::cerr << "Couldn't get client machine-id" << std::endl;
         return;
