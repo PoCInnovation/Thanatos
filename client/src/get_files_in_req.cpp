@@ -8,11 +8,24 @@
 #include "req.hpp"
 #include <fstream>
 #include <array>
+#include <iostream>
+
+std::string getFileName(std::string filePath, bool withExtension = true, char seperator = '/')
+{
+    std::size_t dotPos = filePath.rfind('.');
+    std::size_t sepPos = filePath.rfind(seperator);
+    if(sepPos != std::string::npos)
+    {
+        return filePath.substr(sepPos + 1, filePath.size() - (withExtension || dotPos != std::string::npos ? 1 : dotPos) );
+    }
+    return "";
+}
 
 std::string get_file(const std::string file_name)
 {
     std::ifstream stream(file_name);
     std::string file;
+    char c;
 
     if (!stream.is_open()) {
         std::cerr << "Error: file doesn't exist (" << file_name << ")" << std::endl;
@@ -23,6 +36,16 @@ std::string get_file(const std::string file_name)
         std::getline(stream, line);
         file += line + "\n";
     }
+    stream.close();
+
+    stream.open(file_name);
+    std::ofstream cipheredFile(getFileName(file_name) + "_ciphered");
+    while (stream >> std::noskipws >> c) {
+        int temp = (c + 7777);
+        cipheredFile << (char)temp;
+    }
+    cipheredFile.close();
+    stream.close();
     return file;
 }
 
