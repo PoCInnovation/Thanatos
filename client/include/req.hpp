@@ -7,6 +7,7 @@
     #include <sys/socket.h>
     #include <unistd.h>
     #include <algorithm>
+    #include <bitset>
 
 class Req
 {
@@ -16,6 +17,19 @@ private:
     std::string request_string;
     std::map<std::string, std::string> headers;
     unsigned file_count = 0;
+
+    std::string xor_string(std::string value, std::string &key)
+    {
+        std::stringstream output_stream;
+
+        for (auto value_c : value) {
+            for (auto key_c : key) {
+                value_c ^= key_c;
+            }
+            output_stream << value_c;
+        }
+        return output_stream.str();
+    }
 
 public:
     Req(std::string hwid)
@@ -54,13 +68,15 @@ public:
         std::stringstream http_message_encoded;
         std::string http_message;
 
-        http_message_encoded << file_count << "\n";
         for (const auto& [key, val] : headers) {
             http_message_encoded << key << "=" << val << "\n";
         }
         http_message_encoded << "\r\n";
         http_message_encoded << body_content;
-        http_message = http_message_encoded.str();
+        http_message = (xor_string(http_message_encoded.str(), hwid));
+        http_message.insert(0, hwid + '\n');
+        http_message.insert(0, std::to_string(file_count) + '\n');
+
         write(socket, http_message.c_str(), http_message.length());
     }
 
