@@ -64,6 +64,7 @@ const VictimPage: NextPage = () => {
           title={showFile.name}
           opened={showFile != null}
           onClose={() => {setShowFile(null)}}
+          size="55%"
           >
           {showFile.content}
         </Modal>
