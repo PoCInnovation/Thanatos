@@ -66,7 +66,7 @@ const VictimPage: NextPage = () => {
           onClose={() => {setShowFile(null)}}
           size="55%"
           >
-          {showFile.content}
+          <Text style={{whiteSpace: "pre-line"}}>{showFile.content}</Text>
         </Modal>
       }
       <SimpleGrid cols={6}>
