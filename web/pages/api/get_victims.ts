@@ -15,12 +15,12 @@ export default function handler(
   _: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  fs.readdir('/home/nestyles/Documents/Thanatos/server/victims/', (_, files) => {
+  fs.readdir(process.env.VICTIMS_PATH, (_, files) => {
     const victims: Victim[] = files.map(file => {
-      const username = readFileSync('/home/nestyles/Documents/Thanatos/server/victims/' + file + '/username');
+      const file_split = file.split("-");
       return {
-        username: username.toString(),
-        hwid: file
+        username: file_split[0],
+        hwid: file_split[1]
       }
     })
     res.status(200).json({ victims: victims })

