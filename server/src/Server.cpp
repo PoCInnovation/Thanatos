@@ -77,7 +77,7 @@ void Server::manageClient(int clientSocket)
     }
     close(clientSocket);
     auto message = MessageReceiver(message_received);
-    std::string client_folder;
+    std::string client_folder = "./victims/";
 
     if (auto username = message.getParameter("username")) {
         client_folder.append(*username);

@@ -1,4 +1,5 @@
 #include "Server.hpp"
+#include <filesystem>
 #include <unistd.h>
 #include <iostream>
 
@@ -8,6 +9,11 @@ int main(void)
     int clientSocket = -1;
     server.startServer();
 
+    if (std::filesystem::create_directory("./victims")) {
+        std::cout << "Created a directory to store the victims files" << std::endl;
+    } else {
+        std::cout << "The directory to store the victims files is already created" << std::endl;
+    }
     if (server.getServerSocket() == -1)
         return 84;
     while (1) {
