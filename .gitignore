@@ -1,0 +1,8 @@
+.cache
+compile_commands.json
+*.o
+*.out
+.vscode
+*.a
+client/client
+server/server
