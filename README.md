@@ -5,9 +5,9 @@ The goal of this project is to create a virus capable of gathering as much passw
 ## How does it work?
 
 This projet work in three step :
-    - The client
-    - The server
-    - The page web
+- The client
+- The server
+- The page web
 
 ## Getting Started
 
