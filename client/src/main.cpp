@@ -19,7 +19,8 @@ int connect_to_server(const std::string ip, const int port)
 
     // socket create and verification
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd == -1) {
+    if (sockfd == -1)
+    {
         std::cout << "socket creation failed, exit\n";
         exit(0);
     }
@@ -34,7 +35,8 @@ int connect_to_server(const std::string ip, const int port)
 
     // connect the client socket to server socket
     std::cout << "Try to connect to " << ip << ":" << port << "..\n";
-    if (connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) != 0) {
+    if (connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) != 0)
+    {
         std::cout << "Connection with the server failed, exit\n";
         exit(0);
     }
@@ -49,9 +51,8 @@ int main()
     // pour le moment le hwid est inutilisé
     Req request(*get_file("/etc/machine-id"));
     std::string username = getlogin();
-
     request.set_header("username", username);
-    get_files_contents(request);
+    get_files_contents(request, username);
     request.send_message(socket);
     close(socket);
 }
